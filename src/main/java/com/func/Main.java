@@ -1,6 +1,10 @@
 package com.func;
 
 import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -23,6 +27,26 @@ public class Main {
                 .filter(person -> Gender.FEMALE.equals(person.gender))
                 .toList();
         System.out.println("@@@--->"+femaleList);
+
+        //Funcions
+        int mod = findModulo.apply(6);
+        System.out.println("@@@--->Mod: "+mod);
+
+        //BiFunctions
+        int finalAnswer = findModulo.andThen(increament).apply(6);
+        System.out.println("@@@---ght:"+finalAnswer);
+
+        //Consumer
+        Person p = new Person("Utkarsh", Gender.MALE);
+        greetPersonConsumer.accept(p);
+
+        //BiConsumer
+        greetConsumerIfMale.accept(p,true);
+
+        //Predicate
+        System.out.println(isMale.test(Gender.MALE));
+
+
     }
 
 
@@ -48,4 +72,16 @@ public class Main {
         MALE, FEMALE
     }
 
+    static Function<Integer,Integer> findModulo = number -> number%2;
+
+    static Function<Integer,Integer> increament = number -> number+1;
+
+    //Consumer
+    static Consumer<Person> greetPersonConsumer = person -> System.out.println("Hello "+person.name);
+
+    //BiConsumer
+    static BiConsumer<Person,Boolean> greetConsumerIfMale = (person, aBoolean) -> System.out.println("Hello "+(aBoolean ? person.name : "*****"));
+
+    //Predicate
+    static Predicate<Gender> isMale =  gender -> gender.equals(Gender.MALE);
 }
